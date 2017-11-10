@@ -4,7 +4,7 @@
   <p>大部分用ES6去构建项目，如有node不支持，请自行<a href="http://www.jianshu.com/p/a9c27b80af9d" target="#">查看方法</a></p>
 </div>
 
-<h2 align="center">引用</h2>
+<h2>引用</h2>
 
 ```js
 import database from './database';
