@@ -11,6 +11,7 @@ import database from './database';
 ```
 
 <h2 align="center">用法</h2>
+
 **插入数据**：插入数据到对应数据表中
 ```js
 /*
