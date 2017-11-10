@@ -1,4 +1,4 @@
-<div align="center">
+<div>
   <h1>MongoDB-comm</h1>
   <p>基于MongoDB数据库编写的增删改查基本功能<p>
   <p>大部分用ES6去构建项目，如有node不支持，请自行<a href="http://www.jianshu.com/p/a9c27b80af9d" target="#">查看方法</a></p>
@@ -10,7 +10,7 @@
 import database from './database';
 ```
 
-<h2 align="center">用法</h2>
+<h2>用法</h2>
 
 **插入数据**：插入数据到对应数据表中
 ```js
