@@ -1,4 +1,5 @@
 import Mongo from 'mongodb';
+import BASE from './base';
 
 /**
  * 数据库操作
@@ -7,12 +8,18 @@ import Mongo from 'mongodb';
 class databaseComm{
 	constructor() {
 		this.mongoClient = Mongo.MongoClient
-		this.DB_CONN = 'mongodb://localhost:27017/'
+		this.DB_CONN = this.DB_HOST = 'mongodb://localhost:27017/'
 	}
 
 	// 连接数据库
 	connect(name) {
-		this.DB_CONN += name;
+		let first = this.DB_CONN.split(this.DB_HOST);
+		if(first[1] == '' || !first[1]){
+			this.DB_CONN += name
+		}else{
+			this.DB_CONN = this.DB_HOST + name;
+		}
+		console.log(this.DB_CONN)
 		return new Promise((res, rej) => {
 			this.mongoClient.connect(this.DB_CONN, (err, db) => {
 				if(err){
@@ -30,10 +37,11 @@ class databaseComm{
 
 		return new Promise(function(res, rej){
 			let collection = db.collection(forms);
+
 			collection.insert(data, function(err, result){
 				if(err){
-					console.log('数据表插入失败')
-					return
+					console.log('数据表插入失败:'+err)
+					return false;
 				}
 
 				console.log('插入成功')
@@ -41,7 +49,7 @@ class databaseComm{
 				db.close()
 			})
 		});
-			
+
 	}
 
 	searchData(db, forms, condition) {
@@ -95,23 +103,6 @@ class databaseComm{
 	}
 }
 
-// 自执行Generator函数
-function runGenerator(gen) {
-	var g = gen();
-
-	function next(data) {
-		var result = g.next(data);
-		if(result.done){
-			return 
-		}
-		result.value.then(function(data){
-			next(data);
-		})
-	}
-
-	next();
-}
-
 const database = new databaseComm();
 
 export default {
@@ -131,6 +122,9 @@ export default {
 	 * 
 	 */
 	insert(data = {}, table = 'xianfeng', forms = 'datas') {
+		
+		typeof data == 'string' ? data = eval('('+ data +')') : data ;
+
 		return new Promise(function(res, rej){
 			// Generator
 			function* gen() {
@@ -140,7 +134,7 @@ export default {
 				res()
 			}
 
-			runGenerator(gen);
+			BASE.runGenerator(gen)
 		});
 	},
 
@@ -150,6 +144,9 @@ export default {
 	 *** condition 查询条件
 	 */
 	searchData(condition = {}, table = 'xianfeng', forms = 'datas') {
+
+		typeof condition == 'string' ? condition = eval('('+ condition +')') : condition ;
+
 		return new Promise(function(res, rej){
 			function* gen(){
 				let db = yield database.connect(table)
@@ -158,8 +155,9 @@ export default {
 				res(result)
 			}
 
-			runGenerator(gen)
+			BASE.runGenerator(gen)
 		});
+
 	},
 
 	/**
@@ -170,6 +168,10 @@ export default {
 	 *
 	 */
 	updateData(whereStr, updateStr, table = 'xianfeng', forms = 'datas') {
+
+		typeof whereStr == 'string' ? whereStr = eval('('+ whereStr +')') : whereStr ;
+		typeof updateStr == 'string' ? updateStr = eval('('+ updateStr +')') : updateStr ;
+
 		return new Promise(function(res, rej){
 			function* gen(){
 				let db = yield database.connect(table)
@@ -178,7 +180,7 @@ export default {
 				res()
 			}
 
-			runGenerator(gen)
+			BASE.runGenerator(gen)
 		});
 	},
 
@@ -186,6 +188,9 @@ export default {
 	 * deleteData 删除数据
 	 */
 	deleteData(condition, table = 'xianfeng', forms = 'datas') {
+
+		typeof condition == 'string' ? condition = eval('('+ condition +')') : condition ;
+
 		return new Promise(function(res, rej){
 			function* gen(){
 				let db = yield database.connect(table)
@@ -194,7 +199,7 @@ export default {
 				res()
 			}
 
-			runGenerator(gen)
+			BASE.runGenerator(gen)
 		});
 	}
 }

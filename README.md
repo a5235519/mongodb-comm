@@ -1,7 +1,7 @@
 <div>
   <h1>MongoDB-comm</h1>
   <p>基于MongoDB数据库编写的增删改查基本功能<p>
-  <p>大部分用ES6去构建项目，如有node不支持，请自行<a href="http://www.jianshu.com/p/a9c27b80af9d" target="#">查看方法</a></p>
+  <p>大部分用ES6去构建项目，如有node不支持，请自行<a href="http://www.jianshu.com/p/a9c27b80af9d" traget="_blank">查看方法</a></p>
 </div>
 
 <h2>引用</h2>
